@@ -46,7 +46,6 @@ public class UsersService {
 		try {
 			String sql = "select email, password from users where email = '" + email + "'and password ='" + password
 					+ "';";
-			System.out.println(sql);
 			UserInfo selectedUserInfo = jdbcTemplate.queryForObject(sql, new UserCountRowMapper());
 			return selectedUserInfo;
 
