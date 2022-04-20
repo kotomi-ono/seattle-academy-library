@@ -17,6 +17,7 @@ public class BookInfoRowMapper implements RowMapper<BookInfo> {
         BookInfo bookInfo = new BookInfo();
 
         // bookInfoの項目と、取得した結果(rs)のカラムをマッピングする
+        bookInfo.setBookId(rs.getInt("id"));
         bookInfo.setTitle(rs.getString("title"));
         bookInfo.setThumbnail(rs.getString("thumbnail_url"));
         bookInfo.setAuthor(rs.getString("author"));
