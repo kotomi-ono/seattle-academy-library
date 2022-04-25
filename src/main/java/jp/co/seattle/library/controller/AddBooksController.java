@@ -35,7 +35,6 @@ public class AddBooksController {
     public String login(Model model) {
         return "addBook";
     }
-
     /**
      * 書籍情報を登録する
      * @param locale ロケール情報
@@ -43,24 +42,36 @@ public class AddBooksController {
      * @param author 著者名
      * @param publisher 出版社
      * @param file サムネイルファイル
+     * @param publishdate 出版日
+     * @param texts 説明文
+     * @param isbn 番号
      * @param model モデル
      * @return 遷移先画面
      */
     @Transactional
     @RequestMapping(value = "/insertBook", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
     public String insertBook(Locale locale,
+    		
             @RequestParam("title") String title,
             @RequestParam("author") String author,
             @RequestParam("publisher") String publisher,
+            @RequestParam("publishdate") String publishdate,
+            @RequestParam("texts") String texts,
+            @RequestParam("isbn")String isbn,
             @RequestParam("thumbnail") MultipartFile file,
+           
             Model model) {
         logger.info("Welcome insertBooks.java! The client locale is {}.", locale);
 
         // パラメータで受け取った書籍情報をDtoに格納する。
         BookDetailsInfo bookInfo = new BookDetailsInfo();
+        
         bookInfo.setTitle(title);
         bookInfo.setAuthor(author);
         bookInfo.setPublisher(publisher);
+        bookInfo.setPublishDate(publishdate);
+        bookInfo.setTexts(texts);
+        bookInfo.setIsbn(isbn);
 
         // クライアントのファイルシステムにある元のファイル名を設定する
         String thumbnail = file.getOriginalFilename();
@@ -83,15 +94,35 @@ public class AddBooksController {
                 return "addBook";
             }
         }
-
+       
         // 書籍情報を新規登録する
-        booksService.registBook(bookInfo);
+		String error = "";
 
-        model.addAttribute("resultMessage", "登録完了");
+		if (title.equals("") || author.equals("") || publisher.equals("") || publishdate.equals("")) {
+			error += "必須項目が入力されていません<br>";
+		}
 
-        // TODO 登録した書籍の詳細情報を表示するように実装
-        //  詳細画面に遷移する
-        return "details";
+		if (((!(isbn.length() == 13) && !(isbn.length() == 10) || (!isbn.matches("^[0-9]+$")))) && !(isbn.equals(""))) {
+			error += "SBNの桁数または半角数字が正しくありません。<br>";
+		}
+
+		if (!publishdate.matches("^[0-9]{4}[0-9]{2}[0-9]{2}$")) {
+			error += "出版日は半角数字のYYYYMMDD形式で入力してください。<br>";
+		}
+
+		if (!(error.equals(""))) {// もしどれかしらのエラーが発生していたらエラー表示、登録画面に戻る
+			model.addAttribute("error", error);
+			model.addAttribute("bookInfo", bookInfo);
+			return "addBook";
+
+		}
+
+		booksService.registBook(bookInfo);
+
+		// TODO 登録した書籍の詳細情報を表示するように実装
+		model.addAttribute("bookDetailsInfo", booksService.getnewBookInfo());
+		// 詳細画面に遷移する
+		return "details";
+
+    	 }
     }
-
-}
