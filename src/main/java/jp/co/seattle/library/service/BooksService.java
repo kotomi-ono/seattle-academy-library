@@ -45,7 +45,7 @@ public class BooksService {
      * @param bookId 書籍ID
      * @return 書籍情報
      */
-    public Object getBookInfo(int bookId) {
+    public BookDetailsInfo getBookInfo(int bookId) {
 
         // JSPに渡すデータを設定する
         String sql = "SELECT * FROM books where id ="
