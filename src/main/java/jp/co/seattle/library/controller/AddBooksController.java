@@ -111,7 +111,6 @@ public class AddBooksController {
 		}
 
 		if (!(error.equals(""))) {// もしどれかしらのエラーが発生していたらエラー表示、登録画面に戻る
-			System.out.println("エラーあり");
 			model.addAttribute("error", error);
 			model.addAttribute("bookInfo", bookInfo);
 			return "addBook";
@@ -121,7 +120,7 @@ public class AddBooksController {
 		booksService.registBook(bookInfo);
 
 		// TODO 登録した書籍の詳細情報を表示するように実装
-		model.addAttribute("bookDetailsInfo", booksService.getnewBookInfo(bookInfo));
+		model.addAttribute("bookDetailsInfo", booksService.getnewBookInfo());
 		// 詳細画面に遷移する
 		return "details";
 

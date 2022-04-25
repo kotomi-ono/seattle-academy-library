@@ -59,7 +59,7 @@ public class BooksService {
     /**
      * 新規登録した書籍の情報を取得する
      */
-    public BookDetailsInfo getnewBookInfo(BookDetailsInfo bookId) {
+    public BookDetailsInfo getnewBookInfo() {
 
         // JSPに渡すデータを設定する
         String sql = "SELECT * FROM books where id =(select max(id) from books);";
