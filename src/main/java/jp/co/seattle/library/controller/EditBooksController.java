@@ -114,6 +114,9 @@ public class EditBooksController {
 
      		if (!(error.equals(""))) {// もしどれかしらのエラーが発生していたらエラー表示、登録画面に戻る
      			model.addAttribute("error", error);
+     			
+     			bookInfo.setThumbnailName("null");
+                bookInfo.setThumbnailUrl("null");
      			model.addAttribute("bookDetailsInfo", bookInfo);
      			return "edit";
 
