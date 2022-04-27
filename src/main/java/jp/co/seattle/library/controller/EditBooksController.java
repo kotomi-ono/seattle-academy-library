@@ -1,6 +1,5 @@
 package jp.co.seattle.library.controller;
 
-
 import java.util.Locale;
 
 import org.slf4j.Logger;
@@ -24,15 +23,12 @@ import jp.co.seattle.library.service.ThumbnailService;
 @Controller // APIの入り口
 public class EditBooksController {
 	final static Logger logger = LoggerFactory.getLogger(EditBooksController.class);
+	@Autowired
+	private BooksService booksService;
 
-	// booksService book = new booksService();
-	//@Autowired
-	// private BooksService booksService;
-	 @Autowired
-	    private BooksService booksService;
+	@Autowired
+	private ThumbnailService thumbnailService;
 
-	    @Autowired
-	    private ThumbnailService thumbnailService;
 	/**
 	 * 編集ボタンから編集画面に戻るページ
 	 * 
@@ -40,8 +36,8 @@ public class EditBooksController {
 	 * @return
 	 */
 	@RequestMapping(value = "/editBook", method = RequestMethod.GET)
-	public String editBook(Locale locale, Model model,int bookId) {
-        model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
+	public String editBook(Locale locale, Model model, int bookId) {
+		model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
 
 		return "edit";
 	}
@@ -53,20 +49,15 @@ public class EditBooksController {
 	 */
 	@Transactional
 	@RequestMapping(value = "/updateBook", method = RequestMethod.POST)
-	public String updateBook(Locale locale, 
-			@RequestParam("bookId") int bookId, 
-			@RequestParam("title") String title, 
-			@RequestParam("author") String author,
-			@RequestParam("publisher") String publisher, 
-			@RequestParam("publishdate") String publishdate,
-			@RequestParam("texts") String texts,
-			@RequestParam("isbn") String isbn,
-			@RequestParam("thumbnail") MultipartFile file,
+	public String updateBook(Locale locale, @RequestParam("bookId") int bookId, @RequestParam("title") String title,
+			@RequestParam("author") String author, @RequestParam("publisher") String publisher,
+			@RequestParam("publishdate") String publishdate, @RequestParam("texts") String texts,
+			@RequestParam("isbn") String isbn, @RequestParam("thumbnail") MultipartFile file,
 
 			Model model) {
 		logger.info("Welcome delete! The client locale is {}.", locale);
 
-        // パラメータで受け取った書籍情報をDtoに格納する。
+		// パラメータで受け取った書籍情報をDtoに格納する。
 		BookDetailsInfo bookInfo = new BookDetailsInfo();
 
 		bookInfo.setBookId(bookId);
@@ -76,52 +67,46 @@ public class EditBooksController {
 		bookInfo.setPublishDate(publishdate);
 		bookInfo.setTexts(texts);
 		bookInfo.setIsbn(isbn);
-		
+
 		String thumbnail = file.getOriginalFilename();
 
-        if (!file.isEmpty()) {
-            try {
-                // サムネイル画像をアップロード
-                String fileName = thumbnailService.uploadThumbnail(thumbnail, file);
-                // URLを取得
-                String thumbnailUrl = thumbnailService.getURL(fileName);
+		if (!file.isEmpty()) {
+			try {
+				// サムネイル画像をアップロード
+				String fileName = thumbnailService.uploadThumbnail(thumbnail, file);
+				// URLを取得
+				String thumbnailUrl = thumbnailService.getURL(fileName);
 
-                bookInfo.setThumbnailName(fileName);
-                bookInfo.setThumbnailUrl(thumbnailUrl);
+				bookInfo.setThumbnailName(fileName);
+				bookInfo.setThumbnailUrl(thumbnailUrl);
 
-            } catch (Exception e) {
+			} catch (Exception e) {
 
-                // 異常終了時の処理
-                logger.error("サムネイルアップロードでエラー発生", e);
-                model.addAttribute("bookDetailsInfo", bookInfo);
-                return "edit";
-            }
-        }
-     // 書籍情報を編集し更新する
-            
-        
-     		//error error =new error;
-     		String error = booksService.validationcheck(title, author, publisher, publishdate, isbn, model);
-     		if (!(error.equals(""))) {// もしどれかしらのエラーが発生していたらエラー表示、登録画面に戻る
-     			model.addAttribute("error", error);
-     			
-     			bookInfo.setThumbnailName("null");
-                bookInfo.setThumbnailUrl("null");
-     			model.addAttribute("bookDetailsInfo", bookInfo);
-     			return "edit";
+				// 異常終了時の処理
+				logger.error("サムネイルアップロードでエラー発生", e);
+				model.addAttribute("bookDetailsInfo", bookInfo);
+				return "edit";
+			}
+		}
+		// 書籍情報を編集し更新する
 
-     		}
-     		
-    		// TODO 登録した書籍の詳細情報を表示するように実装
-    		booksService.editBook(bookInfo);
-   
-    		// 詳細画面に遷移する
-    		model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
-    		return "details";
+		String error = booksService.validationcheck(title, author, publisher, publishdate, isbn, model);
+		if (!(error.equals(""))) {// もしどれかしらのエラーが発生していたらエラー表示、登録画面に戻る
+			model.addAttribute("error", error);
 
-     		
-		
-		
+			bookInfo.setThumbnailName("null");
+			bookInfo.setThumbnailUrl("null");
+			model.addAttribute("bookDetailsInfo", bookInfo);
+			return "edit";
+
+		}
+
+		// TODO 登録した書籍の詳細情報を表示するように実装
+		booksService.editBook(bookInfo);
+
+		// 詳細画面に遷移する
+		model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
+		return "details";
 
 	}
 
