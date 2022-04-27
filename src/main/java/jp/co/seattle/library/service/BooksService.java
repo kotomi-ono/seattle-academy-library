@@ -98,4 +98,43 @@ public class BooksService {
     	String sql = "delete from books where id = '" + bookId + "';";
     	jdbcTemplate.update(sql);
     }
+    
+    /*
+     * 書籍を編集する
+     * 
+     */
+    
+    public void editBook(BookDetailsInfo bookInfo) {
+    	
+    	String sql;
+    	if(bookInfo.getThumbnailUrl() == null) {
+    	
+    
+    	 sql = "update books set title = '" + bookInfo.getTitle() 
+    			+ "',author ='" + bookInfo.getAuthor() 
+    			+ "',publisher = '" + bookInfo.getPublisher()
+    			+ "',publish_date = '" + bookInfo.getPublishDate()
+    			+ "',upd_date = 'now()"
+    			+ "',texts ='" + bookInfo.getTexts()
+    			+ "',isbn ='" + bookInfo.getIsbn()
+    			+ "'where  id = " + bookInfo.getBookId() +";";
+    	
+    	
+    	} else {
+    	
+    	sql = "update books set title = '" + bookInfo.getTitle() 
+		      + "',author ='" + bookInfo.getAuthor() 
+		      + "',publisher = '" + bookInfo.getPublisher()
+		      + "',publish_date = '" + bookInfo.getPublishDate()
+		      + "',thumbnail_url = '" + bookInfo.getThumbnailUrl()
+		      + "',thumbnail_name = '" + bookInfo.getThumbnailName()
+		      + "',upd_date = 'now()"
+		      + "',texts ='" + bookInfo.getTexts()
+		      + "',isbn ='" + bookInfo.getIsbn()
+		      + "'where  id = " + bookInfo.getBookId() +";";
+    		
+    	}
+    	    	jdbcTemplate.update(sql);
+    }
+    
 }
