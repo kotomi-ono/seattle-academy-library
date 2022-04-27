@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import jp.co.seattle.library.dto.BookDetailsInfo;
 import jp.co.seattle.library.dto.BookInfo;
@@ -88,6 +89,32 @@ public class BooksService {
 
         jdbcTemplate.update(sql);
     }
+    
+    
+    /*
+     * 書籍情報のバリデーションチェック
+     * 
+     * 
+     */
+    public String validationcheck(String title,String author,String publisher,String publishdate,String isbn,Model model) {
+    	String error = "";
+
+		if (title.equals("") || author.equals("") || publisher.equals("") || publishdate.equals("")) {
+			error += "必須項目が入力されていません<br>";
+		}
+
+		if (((!(isbn.length() == 13) && !(isbn.length() == 10) || (!isbn.matches("^[0-9]+$")))) && !(isbn.equals(""))) {
+			error += "SBNの桁数または半角数字が正しくありません。<br>";
+		}
+
+		if (!publishdate.matches("^[0-9]{4}[0-9]{2}[0-9]{2}$")) {
+			error += "出版日は半角数字のYYYYMMDD形式で入力してください。<br>";
+		}
+		return error;
+
+    }
+    
+    
     /**
      * 書籍を削除する
      * 

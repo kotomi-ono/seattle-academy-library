@@ -98,20 +98,10 @@ public class EditBooksController {
             }
         }
      // 書籍情報を編集し更新する
-     		String error = "";
-
-     		if (title.equals("") || author.equals("") || publisher.equals("") || publishdate.equals("")) {
-     			error += "必須項目が入力されていません<br>";
-     		}
-
-     		if (((!(isbn.length() == 13) && !(isbn.length() == 10) || (!isbn.matches("^[0-9]+$")))) && !(isbn.equals(""))) {
-     			error += "SBNの桁数または半角数字が正しくありません。<br>";
-     		}
-
-     		if (!publishdate.matches("^[0-9]{4}[0-9]{2}[0-9]{2}$")) {
-     			error += "出版日は半角数字のYYYYMMDD形式で入力してください。<br>";
-     		}
-
+            
+        
+     		//error error =new error;
+     		String error = booksService.validationcheck(title, author, publisher, publishdate, isbn, model);
      		if (!(error.equals(""))) {// もしどれかしらのエラーが発生していたらエラー表示、登録画面に戻る
      			model.addAttribute("error", error);
      			
