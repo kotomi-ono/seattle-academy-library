@@ -29,13 +29,15 @@ public class BookDetailsInfo {
     private String isbn;
     
     private String texts;
-
+    
+    private String uploadFile;
+    
     public BookDetailsInfo() {
 
     }
 
     public BookDetailsInfo(int bookId, String title, String author, String publisher,
-            String thumbnailUrl, String thumbnailName, String publishDate, String isbn, String texts) {
+            String thumbnailUrl, String thumbnailName, String publishDate, String isbn, String texts,String uploadFile) {
         this.bookId = bookId;
         this.title = title;
         this.author = author;
@@ -45,6 +47,7 @@ public class BookDetailsInfo {
         this.publishDate = publishDate;
         this.isbn = isbn;
         this.texts = texts;
+        this.uploadFile = uploadFile;
     }
 
 }
