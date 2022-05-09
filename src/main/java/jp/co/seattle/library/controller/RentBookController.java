@@ -11,14 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import jp.co.seattle.library.dto.BookDetailsInfo;
 import jp.co.seattle.library.service.BooksService;
 import jp.co.seattle.library.service.RentService;
 
-@Controller // APIの入り口
 /*
  * レンタルコントローラー
  */
+@Controller // APIの入り口
 public class RentBookController {
 	final static Logger logger = LoggerFactory.getLogger(RentBookController.class);
 
@@ -32,9 +31,6 @@ public class RentBookController {
 	public String deleteBook(Locale locale, @RequestParam("bookId") Integer bookId, Model model) {
 		logger.info("Welcome rent! The client locale is {}.", locale);
 		int rentId = rentservice.rentBook(bookId);
-		BookDetailsInfo bookInfo = new BookDetailsInfo();
-
-		bookInfo.setBookId(bookId);
 
 		if (rentId == 0) {
 			rentservice.rentalBook(bookId);

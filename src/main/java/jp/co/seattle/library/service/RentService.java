@@ -10,11 +10,9 @@ public class RentService {
 	private JdbcTemplate jdbcTemplate;
 
 	/**
-     * 書籍IDに紐づく書籍詳細情報を取得する
-     *
-     * @param bookId 書籍ID
-     * @return 書籍情報
-     */
+	 * 書籍の貸し出し登録する
+	 */
+
 	public void rentalBook(int bookId) {
 
 		String sql = "INSERT INTO rentalbooks (bookid) VALUES (?);";
@@ -22,9 +20,14 @@ public class RentService {
 		jdbcTemplate.update(sql, bookId);
 
 	}
-	/**
-     * 書籍の貸し出し登録する
-     */
+
+	/*
+	 * 書籍IDに紐づく書籍詳細情報を取得する
+	 *
+	 * @param bookId 書籍ID
+	 * 
+	 * @return 書籍情報
+	 */
 
 	public int rentBook(int bookId) {
 
