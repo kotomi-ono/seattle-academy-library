@@ -39,7 +39,10 @@
                             <img class="book_noimg" src="resources/img/noImg.png">
                         </c:if> <c:if test="${bookDetailsInfo.thumbnailUrl !='null'}">
                             <img class="book_noimg" src="${bookDetailsInfo.thumbnailUrl}">
-                        </c:if> <input type="hidden" name="bookId" value="${bookDetailsInfo.bookId}">
+                        </c:if> <input type="hidden" name="bookId" value="${bookDetailsInfo.bookId}"> 
+                        <c:if test="${!empty error}">
+                            <div class="error">${error}</div>
+                        </c:if>
                     </a>
                 </div>
             </div>
@@ -71,7 +74,7 @@
             </div>
         </div>
         <div class="edtDelBookBtn_box">
-            <form method="post" action="#">
+            <form method="post" action="<%=request.getContextPath()%>/rentBook">
                 <button type="submit" value="${bookDetailsInfo.bookId}" name="bookId" class="btn_rentBook">借りる</button>
             </form>
             <form method="post" action="#">
