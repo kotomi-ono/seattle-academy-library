@@ -65,7 +65,7 @@ public class BulkregistController {
 			Reader reader = new InputStreamReader(stream);
 			BufferedReader buf = new BufferedReader(reader);
 
-			if ((bline = buf.ready()) == false) { // CSVファイルにデータがあるか if（空だったら）
+			if (!buf.ready()) { // CSVファイルにデータがあるか if（空だったら）
 				model.addAttribute("errorMessage", "csvに書籍情報がありません");
 				return "bulkregist";
 
@@ -75,13 +75,10 @@ public class BulkregistController {
 				count++;
 				final String[] split = line.split(",", -1);
 				for (int i = 0; i < split.length; i++) {
-					System.out.println(split[i]);
 				}
-				System.out.println(count);
 
 				// バリデーションチェック
 				String error = booksService.validationcheck(split[0], split[1], split[2], split[3], split[4], model);
-				System.out.println("バリデーションチェック済");
 
 				// 書籍情報をセットする
 				bookslist.add(split);
@@ -89,7 +86,6 @@ public class BulkregistController {
 				// もしどれかしらのエラーが発生していたらエラー表示、一括登録画面に戻る
 				if (!(error.equals(""))) {
 					errorlist.add(count + "行目の書籍登録でエラーが起きました。<br>");
-					System.out.println(count + "行目の書籍登録でエラーが起きました。<br>");
 				}
 
 			}
@@ -113,7 +109,6 @@ public class BulkregistController {
 			bookInfo.setPublishDate(booklist[3]);
 			bookInfo.setIsbn(booklist[4]);
 			bookInfo.setTexts(booklist[5]);
-			System.out.println(i);
 			model.addAttribute("bookDetailsInfo", booklist);
 			booksService.registBook(bookInfo);
 
