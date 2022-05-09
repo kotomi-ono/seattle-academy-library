@@ -68,7 +68,6 @@ public class BulkregistController {
 			if (!buf.ready()) { // CSVファイルにデータがあるか if（空だったら）
 				model.addAttribute("errorMessage", "csvに書籍情報がありません");
 				return "bulkregist";
-
 			}
 
 			while ((line = buf.readLine()) != null) { // １つずつデータを読み込む
@@ -87,15 +86,11 @@ public class BulkregistController {
 				if (!(error.equals(""))) {
 					errorlist.add(count + "行目の書籍登録でエラーが起きました。<br>");
 				}
-
 			}
 			if (errorlist.size() > 0) {
 				model.addAttribute("errorMessage", errorlist);
-
 				return "bulkregist";
 			}
-			
-
 		} catch (IOException e) {
 			throw new RuntimeException("ファイルが読み込めません", e);
 		}
@@ -111,10 +106,7 @@ public class BulkregistController {
 			bookInfo.setTexts(booklist[5]);
 			model.addAttribute("bookDetailsInfo", booklist);
 			booksService.registBook(bookInfo);
-
 		}
-
 		return "redirect:/home";
-
 	}
 }

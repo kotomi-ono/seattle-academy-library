@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -35,9 +34,7 @@
             <div class="content_body add_book_content bulk_form">
                 <h2>CSVファイルをアップロードすることで書籍を一括登録できます。</h2>
                 <div class="caution">
-                    <p>
-                        「書籍名、著者名、出版社、ISBN、説明文」の形式で記載してください。<br> ※サムネイル画像は一括登録できません。編集画面で１冊単位で登録してください。
-                    </p>
+                    <p>「書籍名、著者名、出版社、ISBN、説明文」の形式で記載してください。<br> ※サムネイル画像は一括登録できません。編集画面で１冊単位で登録してください。</p>
                     <input type="file" accept="image/*" name="upload_file" id="upload_file">
                 </div>
                 <div class="content_right">
