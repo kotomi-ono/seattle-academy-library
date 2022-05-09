@@ -11,6 +11,7 @@ public class RentService {
 
 	/**
 	 * 書籍の貸し出し登録する
+	 * @param bookId 書籍ID
 	 */
 
 	public void rentalBook(int bookId) {
@@ -26,7 +27,7 @@ public class RentService {
 	 *
 	 * @param bookId 書籍ID
 	 * 
-	 * @return 書籍情報
+	 * @return 貸し出し
 	 */
 
 	public int rentBook(int bookId) {
