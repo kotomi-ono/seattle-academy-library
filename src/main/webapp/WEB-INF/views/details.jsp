@@ -77,7 +77,7 @@
             <form method="post" action="<%=request.getContextPath()%>/rentBook">
                 <button type="submit" value="${bookDetailsInfo.bookId}" name="bookId" class="btn_rentBook">借りる</button>
             </form>
-            <form method="post" action="#">
+            <form method="post" action="<%=request.getContextPath()%>/returnBook">
                 <button type="submit" value="${bookDetailsInfo.bookId}" name="bookId" class="btn_returnBook">返す</button>
             </form>
             <form method="get" action="<%=request.getContextPath()%>/editBook">
