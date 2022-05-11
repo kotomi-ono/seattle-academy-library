@@ -18,7 +18,7 @@ import jp.co.seattle.library.service.RentService;
 /**
  * 削除コントローラー
  */
-@Controller // APIの入り口
+@Controller //APIの入り口
 public class DeleteBookController {
 	final static Logger logger = LoggerFactory.getLogger(DeleteBookController.class);
 	// booksService book = new booksService();
