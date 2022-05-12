@@ -57,7 +57,7 @@ public class AccountController {
         userInfo.setEmail(email);
 
         // TODO バリデーションチェック、パスワード一致チェック実装
-        if(password.matches("^(?=.*[a-zA-Z])(?=.*[0-9])[0-9a-zA-Z]+$") && password.length()>= 8){
+        if(password.matches("^[0-9a-zA-Z]+$") && password.length()>= 8){
         	if(password.equals(passwordForCheck)){
         		userInfo.setPassword(password);
         	    usersService.registUser(userInfo);
