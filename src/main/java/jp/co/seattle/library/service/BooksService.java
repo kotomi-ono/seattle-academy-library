@@ -62,7 +62,7 @@ public class BooksService {
 	public BookDetailsInfo getnewBookInfo() {
 
 		// JSPに渡すデータを設定する
-		String sql = "SELECT * FROM books left join rentalbooks on books.id = rentalbooks.bookid where books.id =(select max(id) from books);";
+		String sql = "SELECT *,case when rentalbooks.id isnull  then '貸し出し可'else '貸し出し中'end as status FROM books left join rentalbooks on books.id = rentalbooks.bookid where books.id =(select max(id) from books);";
 
 		BookDetailsInfo bookDetailsInfo = jdbcTemplate.queryForObject(sql, new BookDetailsInfoRowMapper());
 
