@@ -24,8 +24,7 @@ public class SearchHomeController {
      */
     @RequestMapping(value = "/searchBook", method = RequestMethod.GET)
     public String serchHome(@RequestParam("input") String input,Model model) {
-    	booksService.getsearchBookList(input);
-        model.addAttribute("bookList", booksService.getsearchBookList(input));
+    	model.addAttribute("bookList", booksService.getsearchBookList(input));
         return "home";
     }
 
