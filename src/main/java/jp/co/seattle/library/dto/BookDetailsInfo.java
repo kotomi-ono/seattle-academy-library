@@ -29,6 +29,8 @@ public class BookDetailsInfo {
 	private String isbn;
 
 	private String texts;
+			
+	private String status;
 
 	public BookDetailsInfo() {
 
