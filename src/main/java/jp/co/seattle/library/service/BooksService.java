@@ -39,6 +39,20 @@ public class BooksService {
 
 		return getedBookList;
 	}
+	
+	/*
+	 * 検索した書籍リストを取得する
+	 * 
+	 * @return 検索書籍リスト
+	 */
+	public List<BookInfo> getsearchBookList(String input) {
+		List<BookInfo> getedsearchBookList = jdbcTemplate.query(
+				"select id,title,author,publisher,publish_date,thumbnail_url from books where books.title like '%"+ input +"%' order by title;",
+				new BookInfoRowMapper());
+
+		return getedsearchBookList;
+	}
+	
 
 	/**
 	 * 書籍IDに紐づく書籍詳細情報を取得する
