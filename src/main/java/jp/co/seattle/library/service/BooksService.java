@@ -68,7 +68,7 @@ public class BooksService {
 	public BookDetailsInfo getBookInfo(int bookId) {
 
 		// JSPに渡すデータを設定する
-		String sql = "select *,case when rentalbooks.id isnull  then '貸し出し可'else '貸し出し中'end as status from books left join rentalbooks on books.id = rentalbooks.bookid where books.id ="
+		String sql = "select *,case when rentalbooks.rent_date isnull  then '貸し出し可'else '貸し出し中'end as status from books left join rentalbooks on books.id = rentalbooks.bookid where books.id ="
 				+ bookId;
 		BookDetailsInfo bookDetailsInfo = jdbcTemplate.queryForObject(sql, new BookDetailsInfoRowMapper());
 
@@ -81,7 +81,7 @@ public class BooksService {
 	public BookDetailsInfo getnewBookInfo() {
 
 		// JSPに渡すデータを設定する
-		String sql = "SELECT *,case when rentalbooks.id isnull  then '貸し出し可'else '貸し出し中'end as status FROM books left join rentalbooks on books.id = rentalbooks.bookid where books.id =(select max(id) from books);";
+		String sql = "SELECT *,case when rentalbooks.rent_date isnull  then '貸し出し可'else '貸し出し中'end as status FROM books left join rentalbooks on books.id = rentalbooks.bookid where books.id =(select max(id) from books);";
 
 		BookDetailsInfo bookDetailsInfo = jdbcTemplate.queryForObject(sql, new BookDetailsInfoRowMapper());
 

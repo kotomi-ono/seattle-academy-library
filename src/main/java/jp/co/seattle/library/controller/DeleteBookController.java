@@ -12,13 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jp.co.seattle.library.dto.LendingHistoryInfo;
 import jp.co.seattle.library.service.BooksService;
 import jp.co.seattle.library.service.RentService;
 
 /**
  * 削除コントローラー
  */
-@Controller //APIの入り口
+@Controller // APIの入り口
 public class DeleteBookController {
 	final static Logger logger = LoggerFactory.getLogger(DeleteBookController.class);
 	// booksService book = new booksService();
@@ -38,19 +39,21 @@ public class DeleteBookController {
 	 */
 	@Transactional
 	@RequestMapping(value = "/deleteBook", method = RequestMethod.POST)
-	public String deleteBook(Locale locale, @RequestParam("bookId") Integer bookId,
+	public String deleteBook(Locale locale, @RequestParam("bookId") Integer bookId, @RequestParam("title") String title,
 
 			Model model) {
 		logger.info("Welcome delete! The client locale is {}.", locale);
+		LendingHistoryInfo lendingHistoryInfo = new LendingHistoryInfo();
+		lendingHistoryInfo.setBookId(bookId);
+		lendingHistoryInfo.setTitle(title);
 
-		int rentalId = rentservice.rentBook(bookId);
-
-		if (rentalId == 0) {
+		LendingHistoryInfo rentdate = rentservice.rentBook(bookId);
+		if (rentdate.getRentDate() == null) {
 			booksService.deleteBook(bookId);
 			model.addAttribute("bookList", booksService.getBookList());
 
 		} else {
-			rentservice.returnBook(bookId);
+			rentservice.returnBook(lendingHistoryInfo);
 			model.addAttribute("error", "この本は貸し出し中のため、削除できません。");
 			model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
 			return "details";
