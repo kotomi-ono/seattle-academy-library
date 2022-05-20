@@ -23,8 +23,12 @@ public class SearchHomeController {
      * @return
      */
     @RequestMapping(value = "/searchBook", method = RequestMethod.GET)
-    public String serchHome(@RequestParam("input") String input,Model model) {
-    	model.addAttribute("bookList", booksService.getsearchBookList(input));
+    public String serchHome(
+    		@RequestParam("input") String input,
+    		@RequestParam("searchtype") String searchtype,
+    		Model model) {
+    	
+    	model.addAttribute("bookList", booksService.getsearchBookList(input, searchtype));
         return "home";
     }
 

@@ -45,10 +45,15 @@ public class BooksService {
 	 * 
 	 * @return 検索書籍リスト
 	 */
-	public List<BookInfo> getsearchBookList(String input) {
-		List<BookInfo> getedsearchBookList = jdbcTemplate.query(
-				"select id,title,author,publisher,publish_date,thumbnail_url from books where books.title like '%"+ input +"%' order by title;",
-				new BookInfoRowMapper());
+	public List<BookInfo> getsearchBookList(String input,String searchtype) {
+		
+		String sql;
+		if(!(searchtype.equals(""))) {
+			sql = "select id,title,author,publisher,publish_date,thumbnail_url from books where books.title like '%"+ input +"%' order by title;";
+		}else {
+			sql ="select id,title,author,publisher,publish_date,thumbnail_url from books where books.title like '"+ input +"' order by title;";
+		}
+		List<BookInfo> getedsearchBookList = jdbcTemplate.query(sql,new BookInfoRowMapper());
 
 		return getedsearchBookList;
 	}

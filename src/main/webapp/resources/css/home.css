@@ -96,6 +96,11 @@ input {
 	color: white;
 }
 
+.radiobutton{
+	margin:10px;
+	color:#707070;
+}
+
 .search1:hover {
 	box-shadow: 0 0 2px black;
 }
