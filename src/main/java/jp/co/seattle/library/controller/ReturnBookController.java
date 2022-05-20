@@ -42,13 +42,10 @@ public class ReturnBookController {
 		LendingHistoryInfo rentdate = rentservice.rentBook(bookId);
 		if (rentdate.getRentDate() == null) {
 			model.addAttribute("error", "貸出されていません。");
-			model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
-
 		} else {
 			rentservice.returnBook(lendingHistoryInfo);
-			model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
 		}
-
+		model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
 		return "details";
 	}
 }

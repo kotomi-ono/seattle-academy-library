@@ -38,22 +38,19 @@ public class RentBookController {
 		lendingHistoryInfo.setTitle(title);
 
 		LendingHistoryInfo rentdate = rentservice.rentBook(bookId);
-
 		if (rentdate == null) {
 			rentservice.rentalBook(lendingHistoryInfo);
-			model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
 
 		} else {
 
 			if (rentdate.getRentDate() == null) {
 				rentservice.updaterentalBook(lendingHistoryInfo);
-				model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
 
 			} else {
 				model.addAttribute("error", "貸し出し済みです。");
-				model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
 			}
 		}
+		model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
 		return "details";
 	}
 
