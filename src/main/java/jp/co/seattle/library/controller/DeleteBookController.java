@@ -38,8 +38,7 @@ public class DeleteBookController {
 	 */
 	@Transactional
 	@RequestMapping(value = "/deleteBook", method = RequestMethod.POST)
-	public String deleteBook(Locale locale, @RequestParam("bookId") Integer bookId, @RequestParam("title") String title,
-
+	public String deleteBook(Locale locale, @RequestParam("bookId") Integer bookId,
 			Model model) {
 		logger.info("Welcome delete! The client locale is {}.", locale);
 		LendingHistoryInfo lendingHistoryInfo = new LendingHistoryInfo();

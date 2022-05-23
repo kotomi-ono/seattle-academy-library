@@ -29,7 +29,7 @@ public class RentBookController {
 	private BooksService booksService;
 
 	@RequestMapping(value = "/rentBook", method = RequestMethod.POST) // value＝actionで指定したパラメータ
-	public String deleteBook(Locale locale, @RequestParam("bookId") Integer bookId, @RequestParam("title") String title,
+	public String deleteBook(Locale locale, @RequestParam("bookId") Integer bookId, 
 			Model model) {
 
 		logger.info("Welcome rent! The client locale is {}.", locale);
