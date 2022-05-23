@@ -22,8 +22,8 @@ public class RentService {
 
 	public void rentalBook(LendingHistoryInfo lendingHistoryInfo) {
 
-		String sql = "INSERT INTO rentalbooks (bookid,title,rent_date) VALUES(?,?,now());";
-		jdbcTemplate.update(sql, lendingHistoryInfo.getBookId(), lendingHistoryInfo.getTitle());
+		String sql = "INSERT INTO rentalbooks (bookid,rent_date) VALUES(?,now());";
+		jdbcTemplate.update(sql, lendingHistoryInfo.getBookId());
 
 	}
 
@@ -35,8 +35,8 @@ public class RentService {
 
 	public void updaterentalBook(LendingHistoryInfo lendingHistoryInfo) {
 
-		String sql = "update rentalbooks set title = ?,rent_date = now(),return_date =null where bookid = ? ;";
-		jdbcTemplate.update(sql, lendingHistoryInfo.getTitle(), lendingHistoryInfo.getBookId());
+		String sql = "update rentalbooks set rent_date = now(),return_date =null where bookid = ? ;";
+		jdbcTemplate.update(sql, lendingHistoryInfo.getBookId());
 	}
 
 	/**
@@ -47,9 +47,9 @@ public class RentService {
 
 	public void returnBook(LendingHistoryInfo lendingHistoryInfo) {
 
-		String sql = "update rentalbooks set title = ?,rent_date =null,return_date = now() where bookid = ?;";
+		String sql = "update rentalbooks set rent_date =null,return_date = now() where bookid = ?;";
 
-		jdbcTemplate.update(sql, lendingHistoryInfo.getTitle(), lendingHistoryInfo.getBookId());
+		jdbcTemplate.update(sql, lendingHistoryInfo.getBookId());
 	}
 
 	/*
@@ -63,7 +63,8 @@ public class RentService {
 	public LendingHistoryInfo rentBook(int bookId) {
 
 		try {
-			String sql = "select * from rentalbooks where bookid =" + bookId;
+			String sql = "SELECT bookid,title,rent_date,return_date  FROM books right join rentalbooks on books.id = rentalbooks.bookid where bookId ="
+					+ bookId;
 
 			LendingHistoryInfo rentdate = jdbcTemplate.queryForObject(sql, new LendingHistoryInfoRowMapper());
 			return rentdate;
@@ -82,7 +83,8 @@ public class RentService {
 	public List<LendingHistoryInfo> getrentalList() {
 
 		List<LendingHistoryInfo> getedrentalList = jdbcTemplate.query(
-				"select bookid,title,rent_date ,return_date from rentalbooks;", new LendingHistoryInfoRowMapper());
+				"SELECT bookid,title,rent_date,return_date  FROM books right join rentalbooks on books.id = rentalbooks.bookid;",
+				new LendingHistoryInfoRowMapper());
 
 		return getedrentalList;
 	}

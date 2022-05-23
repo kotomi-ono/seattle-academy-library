@@ -37,10 +37,9 @@ public class ReturnBookController {
 		logger.info("Welcome rent! The client locale is {}.", locale);
 		LendingHistoryInfo lendingHistoryInfo = new LendingHistoryInfo();
 		lendingHistoryInfo.setBookId(bookId);
-		lendingHistoryInfo.setTitle(title);
 
 		LendingHistoryInfo rentdate = rentservice.rentBook(bookId);
-		if (rentdate.getRentDate() == null) {
+		if ((rentdate == null)||(rentdate.getRentDate() == null)) {
 			model.addAttribute("error", "貸出されていません。");
 		} else {
 			rentservice.returnBook(lendingHistoryInfo);

@@ -22,7 +22,6 @@ import jp.co.seattle.library.service.RentService;
 @Controller // APIの入り口
 public class DeleteBookController {
 	final static Logger logger = LoggerFactory.getLogger(DeleteBookController.class);
-	// booksService book = new booksService();
 	@Autowired
 	private BooksService booksService;
 
@@ -45,15 +44,13 @@ public class DeleteBookController {
 		logger.info("Welcome delete! The client locale is {}.", locale);
 		LendingHistoryInfo lendingHistoryInfo = new LendingHistoryInfo();
 		lendingHistoryInfo.setBookId(bookId);
-		lendingHistoryInfo.setTitle(title);
 
 		LendingHistoryInfo rentdate = rentservice.rentBook(bookId);
-		if (rentdate.getRentDate() == null) {
+		if ((rentdate == null)||(rentdate.getRentDate() == null)) {
 			booksService.deleteBook(bookId);
 			model.addAttribute("bookList", booksService.getBookList());
 
 		} else {
-			rentservice.returnBook(lendingHistoryInfo);
 			model.addAttribute("error", "この本は貸し出し中のため、削除できません。");
 			model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
 			return "details";

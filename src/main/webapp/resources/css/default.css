@@ -30,6 +30,7 @@ a {
 /* リンクボタン：優先 */
 a.primary {
     color: #333399;
+    text-decoration: none;
 }
 /* リンクボタン：注意 */
 a.warning {

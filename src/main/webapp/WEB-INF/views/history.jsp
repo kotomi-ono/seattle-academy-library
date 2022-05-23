@@ -17,19 +17,19 @@
 <body class="wrapper">
     <header>
         <div class="left">
-            <img class="mark" src="resources/img/logo.png" />
+            <img class="mark" src="resources/img/logo.png" style ="width : 48px; height: 48px; border-style: none; padding:0;"/>
             <div class="logo">Seattle Library</div>
         </div>
         <div class="right">
-            <ul>
-                <li><a href="<%=request.getContextPath()%>/home" class="menu">Home</a></li>
-                <li><a href="<%=request.getContextPath()%>/">ログアウト</a></li>
+            <ul style ="padding:0; margin:0;">
+                <li><a href="<%=request.getContextPath()%>/home" class="text-secondary" style ="text-decoration: none;">Home</a></li>
+                <li><a href="<%=request.getContextPath()%>/" class="text-secondary" style ="text-decoration: none;">ログアウト</a></li>
             </ul>
         </div>
     </header>
     <main>
         <div class="rentalList">
-            <table class="table table-bordered mx-auto" style="width: 650px;">
+            <table class="table table-bordered mx-auto" style="width: 650px; text-decoration: none;">
                 <thead>
                     <tr class="table-primary">
                         <th>書籍名</th>
@@ -42,7 +42,8 @@
                         <tr>
                             <td>
                                 <form method="post" class="title" action="<%=request.getContextPath()%>/details">
-                                    <a href="javascript:void(0)" onclick="this.parentNode.submit();"> ${lendingHistoryInfo.title} </a> <input type="hidden" name="bookId" value="${lendingHistoryInfo.bookId}">
+                                    <a href="javascript:void(0)" onclick="this.parentNode.submit();"> ${lendingHistoryInfo.title} </a> 
+                                    <input type="hidden" name="bookId" value="${lendingHistoryInfo.bookId}">
                                 </form>
                             </td>
                             <td>${lendingHistoryInfo.rentDate}</td>

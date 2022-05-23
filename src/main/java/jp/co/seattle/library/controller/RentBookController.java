@@ -35,7 +35,6 @@ public class RentBookController {
 		logger.info("Welcome rent! The client locale is {}.", locale);
 		LendingHistoryInfo lendingHistoryInfo = new LendingHistoryInfo();
 		lendingHistoryInfo.setBookId(bookId);
-		lendingHistoryInfo.setTitle(title);
 
 		LendingHistoryInfo rentdate = rentservice.rentBook(bookId);
 		if (rentdate == null) {
