@@ -39,25 +39,26 @@ public class BooksService {
 
 		return getedBookList;
 	}
-	
+
 	/*
 	 * 検索した書籍リストを取得する
 	 * 
 	 * @return 検索書籍リスト
 	 */
-	public List<BookInfo> getsearchBookList(String input,String searchtype) {
-		
+	public List<BookInfo> getsearchBookList(String input, String searchtype) {
+
 		String sql;
-		if(!(searchtype.equals(""))) {
-			sql = "select id,title,author,publisher,publish_date,thumbnail_url from books where books.title like '%"+ input +"%' order by title;";
-		}else {
-			sql ="select id,title,author,publisher,publish_date,thumbnail_url from books where books.title like '"+ input +"' order by title;";
+		if (!(searchtype.equals(""))) {
+			sql = "select id,title,author,publisher,publish_date,thumbnail_url from books where books.title like '%"
+					+ input + "%' order by title;";
+		} else {
+			sql = "select id,title,author,publisher,publish_date,thumbnail_url from books where books.title like '"
+					+ input + "' order by title;";
 		}
-		List<BookInfo> getedsearchBookList = jdbcTemplate.query(sql,new BookInfoRowMapper());
+		List<BookInfo> getedsearchBookList = jdbcTemplate.query(sql, new BookInfoRowMapper());
 
 		return getedsearchBookList;
 	}
-	
 
 	/**
 	 * 書籍IDに紐づく書籍詳細情報を取得する
@@ -68,7 +69,7 @@ public class BooksService {
 	public BookDetailsInfo getBookInfo(int bookId) {
 
 		// JSPに渡すデータを設定する
-		String sql = "select *,case when rentalbooks.id isnull  then '貸し出し可'else '貸し出し中'end as status from books left join rentalbooks on books.id = rentalbooks.bookid where books.id ="
+		String sql = "select *,case when rentalbooks.rent_date isnull  then '貸し出し可'else '貸し出し中'end as status from books left join rentalbooks on books.id = rentalbooks.bookid where books.id ="
 				+ bookId;
 		BookDetailsInfo bookDetailsInfo = jdbcTemplate.queryForObject(sql, new BookDetailsInfoRowMapper());
 
@@ -81,7 +82,7 @@ public class BooksService {
 	public BookDetailsInfo getnewBookInfo() {
 
 		// JSPに渡すデータを設定する
-		String sql = "SELECT *,case when rentalbooks.id isnull  then '貸し出し可'else '貸し出し中'end as status FROM books left join rentalbooks on books.id = rentalbooks.bookid where books.id =(select max(id) from books);";
+		String sql = "SELECT *,case when rentalbooks.rent_date isnull  then '貸し出し可'else '貸し出し中'end as status FROM books left join rentalbooks on books.id = rentalbooks.bookid where books.id =(select max(id) from books);";
 
 		BookDetailsInfo bookDetailsInfo = jdbcTemplate.queryForObject(sql, new BookDetailsInfoRowMapper());
 
@@ -135,7 +136,8 @@ public class BooksService {
 	 */
 	public void deleteBook(Integer bookId) {
 
-		String sql = "delete from books where id = '" + bookId + "';";
+		String sql = "WITH deleted AS (DELETE from books WHERE books.id = " + bookId + " RETURNING books.id)\n"
+				+ "DELETE FROM rentalbooks WHERE rentalbooks.bookid IN (SELECT id FROM deleted);";
 		jdbcTemplate.update(sql);
 	}
 
